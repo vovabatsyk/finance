@@ -95,11 +95,11 @@
         validations: {
             email: {email, required},
             password: {required, minLength: minLength(5)},
-            name: {required , minLength:minLength(4)},
+            name: {required, minLength: minLength(4)},
             agree: {checked: v => v}
         },
         methods: {
-            submitHandler() {
+            async submitHandler() {
                 if (this.$v.$invalid) {
                     this.$v.$touch()
                     return
@@ -109,8 +109,14 @@
                     password: this.password,
                     name: this.name
                 }
-                console.log(formData)
-                this.$router.push('/login')
+
+                try {
+                    await this.$store.dispatch('register', formData)
+                    await this.$router.push('/login')
+                } catch (e) {
+                }
+                await this.$store.dispatch('register', formData)
+                await this.$router.push('/login')
             }
         }
     }

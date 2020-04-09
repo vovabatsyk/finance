@@ -47,8 +47,9 @@
           dropdown: null
       }),
       methods: {
-          logout() {
-              this.$router.push('/login?message=logout')
+          async logout() {
+              await this.$store.dispatch('logout')
+              await this.$router.push('/login?message=logout')
           }
       },
       mounted() {
