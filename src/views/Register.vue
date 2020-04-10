@@ -112,11 +112,9 @@
 
                 try {
                     await this.$store.dispatch('register', formData)
-                    await this.$router.push('/login')
+                    await this.$router.push('/')
                 } catch (e) {
                 }
-                await this.$store.dispatch('register', formData)
-                await this.$router.push('/login')
             }
         }
     }
