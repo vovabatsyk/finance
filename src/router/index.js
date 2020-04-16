@@ -11,6 +11,7 @@ import Profile from '../views/Profile'
 import Record from '../views/Record'
 import Register from '../views/Register'
 
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -36,7 +37,7 @@ const router = new VueRouter({
       component: Categories,
     },
     {
-      path: '/detail-record',
+      path: '/detail-record/:id',
       name: 'detailRecord',
       meta: { layout: 'main', auth: true },
       component: DetailRecord,

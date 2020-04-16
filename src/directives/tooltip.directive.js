@@ -1,6 +1,6 @@
 export default {
   bind(el, { value }) {
-    M.Tooltip.init(el, { html: value })
+    M.Tooltip.init(el, { html: value , position: "left"})
   },
   unbind(el) {
     const tooltip = M.Tooltip.getInstance(el)
