@@ -13,9 +13,9 @@ export default {
               .ref(`/users/${uid}/categories`)
               .once('value')
           ).val() || {} // вертає обєкт
-        return Object.keys(categories).map((key) => ({
+        return Object.keys(categories).map(key => ({
           ...categories[key],
-          id: key,
+          id: key
         }))
 
         /* const cats = []
@@ -78,7 +78,6 @@ export default {
         commit('setError', e)
         throw e
       }
-    },
-  },
-  
+    }
+  }
 }

@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import dateFilter from '@/filter/date.filter'
 import currencyFilter from '@/filter/currency.filter'
+import localizeFilter from '@/filter/localize.filter'
 import tooltipDirective from '@/directives/tooltip.directive'
 import messagePlugin from '@/utils/message.plugin'
 import Loader from '@/components/app/Loader'
@@ -20,11 +21,12 @@ Vue.use(messagePlugin)
 Vue.config.productionTip = false
 Vue.filter('date', dateFilter)
 Vue.filter('currency', currencyFilter)
+Vue.filter('localize', localizeFilter)
+
 Vue.directive('tooltip', tooltipDirective)
 Vue.use(Vuelidate)
 Vue.component('Loader', Loader)
 Vue.component('Paginate', Paginate)
-
 
 // Initialize Firebase
 firebase.initializeApp({
@@ -35,7 +37,7 @@ firebase.initializeApp({
   storageBucket: 'vue-finance-34d79.appspot.com',
   messagingSenderId: '189392031748',
   appId: '1:189392031748:web:394e9501cbc04b8a6ea551',
-  measurementId: 'G-66XJVQLBVR',
+  measurementId: 'G-66XJVQLBVR'
 })
 let app
 firebase.auth().onAuthStateChanged(() => {
@@ -43,7 +45,7 @@ firebase.auth().onAuthStateChanged(() => {
     app = new Vue({
       router,
       store,
-      render: (h) => h(App),
+      render: h => h(App)
     }).$mount('#app')
   }
 })

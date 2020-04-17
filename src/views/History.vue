@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import HistoryTable from "@/components/HistoryTable";
-import paginationMixins from "@/mixins/pagination.mixin";
-import { Pie } from "vue-chartjs";
+import HistoryTable from '@/components/HistoryTable'
+import paginationMixins from '@/mixins/pagination.mixin'
+import { Pie } from 'vue-chartjs'
 export default {
-  name: "history",
+  name: 'history',
   extends: Pie,
   mixins: [paginationMixins],
   data: () => ({
@@ -40,12 +40,12 @@ export default {
     records: []
   }),
   async mounted() {
-    this.records = await this.$store.dispatch("fetchRecords");
-    const categories = await this.$store.dispatch("fetchCategories");
+    this.records = await this.$store.dispatch('fetchRecords')
+    const categories = await this.$store.dispatch('fetchCategories')
 
-    this.setup(categories);
+    this.setup(categories)
 
-    this.loading = false;
+    this.loading = false
   },
   methods: {
     setup(categories) {
@@ -57,47 +57,47 @@ export default {
               ...record,
               categoryName: categories.find(c => c.id === record.categoryId)
                 .title,
-              typeClass: record.type === "income" ? "green" : "red",
-              typeText: record.type === "income" ? "Доход" : "Расход"
-            };
+              typeClass: record.type === 'income' ? 'green' : 'red',
+              typeText: record.type === 'income' ? 'Доход' : 'Расход'
+            }
           })
           .reverse()
-      );
+      )
       this.renderChart({
         labels: categories.map(c => c.title),
         datasets: [
           {
-            label: "Расходы по категориям",
+            label: 'Расходы по категориям',
             data: categories.map(c => {
               return this.records.reduce((total, r) => {
-                if (r.categoryId === c.id && r.type === "outcome") {
-                  total += +r.amount;
+                if (r.categoryId === c.id && r.type === 'outcome') {
+                  total += +r.amount
                 }
-                return total;
-              }, 0);
+                return total
+              }, 0)
             }),
             backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)"
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
             ],
             borderColor: [
-              "rgba(255, 99, 132, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)"
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
             ],
             borderWidth: 1
           }
         ]
-      });
+      })
     }
   },
   components: { HistoryTable }
-};
+}
 </script>
