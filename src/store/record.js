@@ -23,11 +23,8 @@ export default {
               .database()
               .ref(`/users/${uid}/records`)
               .once('value')
-          ).val() || {} // вертає обєкт
-        return Object.keys(records).map((key) => ({
-          ...records[key],
-          id: key,
-        }))
+          ).val() || {}
+        return Object.keys(records).map(key => ({ ...records[key], id: key }))
       } catch (e) {
         commit('setError', e)
         throw e
@@ -43,12 +40,12 @@ export default {
               .ref(`/users/${uid}/records`)
               .child(id)
               .once('value')
-          ).val() || {} // вертає обєкт
+          ).val() || {}
         return { ...record, id }
       } catch (e) {
         commit('setError', e)
         throw e
       }
-    },
-  },
+    }
+  }
 }

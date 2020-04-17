@@ -2,14 +2,14 @@
   <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
-        <h4>{{'edit' | localize}}</h4>
+        <h4>{{'Edit'|localize}}</h4>
       </div>
       <form @submit.prevent="submitHandler">
         <div class="input-field">
           <select ref="select" v-model="current">
             <option v-for="c of categories" :key="c.id" :value="c.id">{{c.title}}</option>
           </select>
-          <label>{{'Category_Choose' | localize}}</label>
+          <label>{{'SelectCategory'|localize}}</label>
         </div>
         <div class="input-field">
           <input
@@ -18,11 +18,11 @@
             v-model="title"
             :class="{invalid: $v.title.$dirty && !$v.title.required}"
           />
-          <label for="name">{{'title' | localize}}</label>
+          <label for="name">{{'Title'|localize}}</label>
           <span
             v-if="$v.title.$dirty && !$v.title.required"
             class="helper-text invalid"
-          >{{'enterTitle' | localize}}</span>
+          >{{'Message_CategoryTitle'|localize}}</span>
         </div>
         <div class="input-field">
           <input
@@ -31,14 +31,14 @@
             v-model.number="limit"
             :class="{invalid: $v.limit.$dirty && !$v.limit.minValue}"
           />
-          <label for="limit">{{'limit' | localize}}</label>
+          <label for="limit">{{'Limit'|localize}}</label>
           <span
             v-if="$v.limit.$dirty && !$v.limit.minValue"
             class="helper-text invalid"
-          >{{'minLimit' | localize}} {{$v.limit.$params.minValue.min}}</span>
+          >{{'Message_MinLength'|localize}} {{$v.limit.$params.minValue.min}}</span>
         </div>
         <button class="btn waves-effect waves-light" type="submit">
-          {{'update' | localize}}
+          {{'Update'|localize}}
           <i class="material-icons right">send</i>
         </button>
       </form>
@@ -48,10 +48,14 @@
 
 <script>
 import { required, minValue } from 'vuelidate/lib/validators'
-import localizeFilter from '@/filter/localize.filter'
-
+import localizeFilter from '@/filters/localize.filter'
 export default {
-  props: ['categories'],
+  props: {
+    categories: {
+      type: Array,
+      required: true
+    }
+  },
   data: () => ({
     select: null,
     title: '',
@@ -81,6 +85,7 @@ export default {
         this.$v.$touch()
         return
       }
+
       try {
         const categoryData = {
           id: this.current,
@@ -88,8 +93,8 @@ export default {
           limit: this.limit
         }
         await this.$store.dispatch('updateCategory', categoryData)
-        this.$message(localizeFilter('Category_Uptade'))
-        this.$emit('updated', categoryData) //оновити front-end
+        this.$message(localizeFilter('Category_HasBeenUpdated'))
+        this.$emit('updated', categoryData)
       } catch (e) {}
     }
   },
@@ -99,7 +104,7 @@ export default {
   },
   destroyed() {
     if (this.select && this.select.destroy) {
-      this.select.destroy
+      this.select.destroy()
     }
   }
 }

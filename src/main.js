@@ -1,13 +1,16 @@
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
+import Paginate from 'vuejs-paginate'
+import VueMeta from 'vue-meta'
 import App from './App.vue'
-import router from './router'
+import router from './router/router'
 import store from './store'
-import dateFilter from '@/filter/date.filter'
-import currencyFilter from '@/filter/currency.filter'
-import localizeFilter from '@/filter/localize.filter'
+import dateFilter from '@/filters/date.filter'
+import currencyFilter from '@/filters/currency.filter'
+import localizeFilter from '@/filters/localize.filter'
 import tooltipDirective from '@/directives/tooltip.directive'
 import messagePlugin from '@/utils/message.plugin'
+import titlePlugin from '@/utils/title.plugin'
 import Loader from '@/components/app/Loader'
 import './registerServiceWorker'
 import 'materialize-css/dist/js/materialize.min'
@@ -15,20 +18,20 @@ import 'materialize-css/dist/js/materialize.min'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import Paginate from 'vuejs-paginate'
+
+Vue.config.productionTip = false
 
 Vue.use(messagePlugin)
-Vue.config.productionTip = false
-Vue.filter('date', dateFilter)
-Vue.filter('currency', currencyFilter)
-Vue.filter('localize', localizeFilter)
-
-Vue.directive('tooltip', tooltipDirective)
+Vue.use(titlePlugin)
 Vue.use(Vuelidate)
+Vue.use(VueMeta)
+Vue.filter('date', dateFilter)
+Vue.filter('localize', localizeFilter)
+Vue.filter('currency', currencyFilter)
+Vue.directive('tooltip', tooltipDirective)
 Vue.component('Loader', Loader)
 Vue.component('Paginate', Paginate)
 
-// Initialize Firebase
 firebase.initializeApp({
   apiKey: 'AIzaSyDO80oeGtic2i_eWbmBUMn2CqrdBSxrgvA',
   authDomain: 'vue-finance-34d79.firebaseapp.com',
@@ -39,7 +42,9 @@ firebase.initializeApp({
   appId: '1:189392031748:web:394e9501cbc04b8a6ea551',
   measurementId: 'G-66XJVQLBVR'
 })
+
 let app
+
 firebase.auth().onAuthStateChanged(() => {
   if (!app) {
     app = new Vue({

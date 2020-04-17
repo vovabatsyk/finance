@@ -1,24 +1,22 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>{{'profileTitle' | localize}}</h3>
+      <h3>{{'ProfileTitle' | localize}}</h3>
     </div>
-
     <form class="form" @submit.prevent="submitHandler">
       <div class="input-field">
         <input
           id="description"
           type="text"
-          v-model.trim="name"
-          :class="{invalid: ($v.name.$dirty && !$v.name.required)}"
+          v-model="name"
+          :class="{invalid: $v.name.$dirty && !$v.name.required}"
         />
-        <label for="description">{{'name' | localize}}</label>
-        <span
+        <label for="description">{{'Name'|localize}}</label>
+        <small
           class="helper-text invalid"
           v-if="$v.name.$dirty && !$v.name.required"
-        >{{'Message_EnterName' | localize}}</span>
+        >{{'Message_EnterName'|localize}}</small>
       </div>
-
       <div class="switch">
         <label>
           English
@@ -27,9 +25,8 @@
           Русский
         </label>
       </div>
-
       <button class="btn waves-effect waves-light" type="submit">
-        {{'update' | localize}}
+        {{'Update'|localize}}
         <i class="material-icons right">send</i>
       </button>
     </form>
@@ -39,10 +36,13 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
-import localizeFilter from '@/filter/localize.filter'
-
+import localeFilter from '@/filters/localize.filter'
 export default {
-  name: 'profile',
+  metaInfo() {
+    return {
+      title: this.$title('ProfileTitle')
+    }
+  },
   data: () => ({
     name: '',
     isRuLocale: true
@@ -67,17 +67,18 @@ export default {
         this.$v.$touch()
         return
       }
+
       try {
         await this.updateInfo({
           name: this.name,
           locale: this.isRuLocale ? 'ru-RU' : 'en-US'
         })
-        this.$message(localizeFilter('Profile_messageUpdate'))
       } catch (e) {}
     }
   }
 }
 </script>
+
 
 <style scoped>
 .switch {
